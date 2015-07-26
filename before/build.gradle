@@ -1,0 +1,32 @@
+// 使用するプラグイン
+plugins {
+  id 'com.eriwen.gradle.js' version '1.12.1'
+  id 'com.bluepapa32.watch' version '0.1.5'
+}
+
+// エンコード
+def encoding = 'UTF-8'
+
+// JavaScriptソースファイル
+def jsFiles = fileTree('Scripts').matching {
+	exclude '_references.js', 'lib'
+}
+
+// JavaScriptファイルの変更監視
+watch {
+    combineDevJs {
+        files jsFiles
+        tasks 'combineDevJs'
+    }
+}
+
+// JavaScriptファイルの結合
+task combineDevJs(type: org.gradle.api.tasks.SourceTask) {
+	source = jsFiles
+	def dest = file('js/combined.js')
+	ant.concat(destfile: (dest as File).canonicalPath, fixlastline: 'yes', encoding: encoding) {
+		source.files.each {
+			fileset(file: it)
+		}
+	}
+}

@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=11">
+    <title>社員CRUD</title>
+    <link type="text/css" rel="stylesheet" href="css/employeeListView.css">
+    <script type="text/javascript" src="Scripts/lib/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="Scripts/lib/knockout-3.3.0.js"></script>
+    <script type="text/javascript" src="js/combined.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+
+            new EmployeeCrudViewModel(function (viewModel) {
+                ko.applyBindings(viewModel);
+            });
+
+        });
+
+    </script>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>社員ID(検索)</td>
+            <td><input type="text" data-bind="textInput: employeeIdFind" /></td>
+        </tr>
+        <tr>
+            <td>社員名(検索)</td>
+            <td><input type="text" data-bind="textInput: employeeNameFind" /></td>
+        </tr>
+        <tr>
+            <td>部署名(検索)</td>
+            <td>
+                <select data-bind="options: departmentListModel().departmentModelList,
+                                   optionsText: 'name',
+                                   value: departmentFind,
+                                   optionsCaption: '未選択'"></select>
+            </td>
+        </tr>
+    </table>
+    <hr />
+    <div data-bind="template: {name: 'employee-list-view', data: employeeListViewModel},
+                    click: selectEmployee"></div>
+    <hr />
+    <table>
+        <tr>
+            <td>社員ID(更新)</td>
+            <td><input type="text" data-bind="textInput: employeeId" /></td>
+        </tr>
+        <tr>
+            <td>社員名(更新)</td>
+            <td><input type="text" data-bind="textInput: employeeName" /></td>
+        </tr>
+        <tr>
+            <td>部署名(更新)</td>
+            <td>
+                <select data-bind="options: departmentListModel().departmentModelList,
+                                   optionsText: 'name',
+                                   value: department,
+                                   optionsCaption: '未選択'"></select>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td><input type="button" value="登録" data-bind="click: addEmployee,
+                                                             enable: canAddEmployee()" /></td>
+            <td><input type="button" value="更新" data-bind="click: updateEmployee,
+                                                             enable: canUpdateEmployee()" /></td>
+            <td><input type="button" value="削除" data-bind="click: deleteEmployee,
+                                                             enable: canDeleteEmployee()" /></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" value="保存" data-bind="click: saveDepartmentAll" />
+            </td>
+        </tr>
+    </table>
+
+    <script type="text/html" id="employee-list-view">
+        <!-- 実際にはJSPなどで外部ファイル化してインクルードする -->
+        <table class="employee-list-view">
+            <thead>
+                <tr>
+                    <th>社員ID</th>
+                    <th>社員名</th>
+                    <th>部署名</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: employeeListModel().employeeModelList">
+                <tr data-bind="click: function() { $parent.selectedRowIdx($index()) }">
+                    <td data-bind="text: id"></td>
+                    <td data-bind="text: name"></td>
+                    <td data-bind="text: departmentModel().name"></td>
+                </tr>
+            </tbody>
+        </table>
+    </script>
+
+</body>
+</html>
+
