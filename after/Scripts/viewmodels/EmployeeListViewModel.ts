@@ -56,4 +56,3 @@ class EmployeeListViewModel {
         return employee;
     }
 }
-
