@@ -1,0 +1,11 @@
+.vs
+
+after/.vs
+after/bin/
+after/obj/
+after/after.csproj.user
+
+after_spec/.vs
+after_spec/bin/
+after_spec/obj/
+after_spec/after_spec.csproj.user
