@@ -1,0 +1,21 @@
+{
+  "name": "typescript_learning",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hs0x01/typescript_learning.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-typescript": "^2.9.2",
+    "gulp-watch": "^4.3.5",
+    "merge2": "^0.3.6"
+  }
+}

@@ -1,6 +1,4 @@
-﻿/// <reference path="../lib/knockout.d.ts" />
-
-/**
+﻿/**
  * 値をko.observable化して返す。
  * 値が既にko.observableであれば、そのまま返す。
  * @param value 値
