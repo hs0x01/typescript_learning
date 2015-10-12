@@ -6,6 +6,7 @@ var watch      = require("gulp-watch");
 var gulpLess   = require('gulp-less');
 var del        = require('del');
 var plumber    = require('gulp-plumber');
+var typedoc    = require("gulp-typedoc");
 
 // 定数定義
 var TS_TARGET       = 'ES5';
@@ -62,6 +63,22 @@ gulp.task('compileAllTs', function () {
 
 // すべてのLESSのコンパイル
 gulp.task('compileAllLess', compileAllLess);
+
+// TypeDocの生成
+gulp.task('typedoc', function() {
+    return gulp
+        .src(['after/Scripts/**/*.ts'])
+        .pipe(typedoc({ 
+            target: TS_TARGET,
+            includeDeclarations: true,
+            out: "after_doc", 
+            json: "after_doc/to/file.json",
+            name: "after", 
+            ignoreCompilerErrors: false,
+            version: true,
+        }))
+    ;
+});
 
 // ファイルの追加・更新・削除を監視し、変更があったら再コンパイル実行
 gulp.task('watch', function() {

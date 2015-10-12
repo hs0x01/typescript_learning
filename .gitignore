@@ -1,4 +1,5 @@
 .vs
+after_doc/
 node_modules/
 
 after/.vs
