@@ -1,17 +1,23 @@
 ﻿/**
- * @class 部署モデルクラス。
+ * 部署モデルです。
  */
 class DepartmentModel extends BaseModel {
 
+    /**
+     * 部署名です。
+     */
     private _name: KnockoutObservable<string>;
+
+    /**
+     * 社員リストモデルです。
+     */
     private _employeeListModel: KnockoutObservable<EmployeeListModel>;
 
     /**
-     * コンストラクタ。
-     * @constructor
-     * @param {string} id - 部署ID
-     * @param {string} name - 部署名
-     * @param {EmployeeListModel} employeeListModel - 社員リストモデル
+     * コンストラクタです。
+     * @param id 部署のID
+     * @param name 部署名
+     * @param employeeListModel 社員リストモデル
      */
     constructor (id: string, name: string, employeeListModel: EmployeeListModel) {
         super(id);
@@ -19,24 +25,42 @@ class DepartmentModel extends BaseModel {
         this._employeeListModel = observable(employeeListModel || null);
     }
 
-    // アクセサ
+    /**
+     * 部署名を返します。
+     * @return 部署名
+     */
     get name(): KnockoutObservable<string> {
         return this._name;
     }
+
+    /**
+     * 部署名を設定します。
+     * @param value 部署名
+     */
     set name(value: KnockoutObservable<string>) {
         this._name = value;
     }
+
+    /**
+     * 社員リストモデルを返します。
+     * @return 社員リストモデル
+     */
     get employeeListModel(): KnockoutObservable<EmployeeListModel> {
         return this._employeeListModel;
     }
+
+    /**
+     * 社員リストモデルを設定します。
+     * @param value 社員リストモデル
+     */
     set employeeListModel(value: KnockoutObservable<EmployeeListModel>) {
         this._employeeListModel = value;
     }
 
     /**
-     * 当部署に社員を追加する。
-     * @param {string} employeeId - 社員ID
-     * @param {string} employeeName - 社員名
+     * 当部署に社員を追加します。
+     * @param employeeId 社員ID
+     * @param employeeName 社員名
      */
     addEmployee(employeeId: string, employeeName: string) {
         var employeeModel: EmployeeModel = new EmployeeModel(employeeId, employeeName, this);
@@ -44,8 +68,8 @@ class DepartmentModel extends BaseModel {
     }
 
     /**
-     * 当部署から社員を削除する。
-     * @param {string} employeeId - 社員ID
+     * 当部署から社員を削除します。
+     * @param employeeId 社員ID
      */
     deleteEmployee(employeeId: string) {
         var employeeModelList: Array<EmployeeModel> = this.employeeListModel().employeeModelList();

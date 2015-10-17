@@ -1,8 +1,10 @@
 /**
- * 値をko.observable化して返す。
- * 値が既にko.observableであれば、そのまま返す。
+ * 値を{@code ko.observable}化して返します。
+ * <p>
+ * 値が既に<code>ko.observable</code>であれば、それを返します。
+ * </p>
  * @param value 値
- * @return {ko.observable}
+ * @return <code>ko.observable</code>な値
  */
 function observable(value) {
     if (ko.isObservable(value)) {
@@ -11,10 +13,12 @@ function observable(value) {
     return ko.observable(value);
 }
 /**
- * 値をko.observableArray化して返す。
- * 値が既にko.observableArrayであれば、そのまま返す。
+ * 値を<code>ko.observableArray</code>化して返します。
+ * <p>
+ * 値が既に<code>ko.observableArray</code>であれば、それを返します。
+ * </p>
  * @param array 配列
- * @return {ko.observableArray}
+ * @return <code>ko.observableArray</code>な値
  */
 function observableArray(array) {
     if (!Array.isArray(array)) {
@@ -26,22 +30,28 @@ function observableArray(array) {
     return ko.observableArray(array);
 }
 /**
- * 基底モデルクラス。
+ * すべてのモデルが共通に継承すべきモデルです。
  */
 var BaseModel = (function () {
     /**
-     * コンストラクタ。
-     * @constructor
-     * @param {string} id - ID
+     * オブジェクトIDを引数にとるコンストラクタです。
+     * @param id オブジェクトID
      */
     function BaseModel(id) {
         this._id = observable(id || '');
     }
     Object.defineProperty(BaseModel.prototype, "id", {
-        // アクセサ
+        /**
+         * オブジェクトIDを返します。
+         * @return オブジェクトID
+         */
         get: function () {
             return this._id;
         },
+        /**
+         * オブジェクトIDを設定します。
+         * @param value オブジェクトID
+         */
         set: function (value) {
             this._id = value;
         },

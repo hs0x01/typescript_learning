@@ -1,8 +1,10 @@
 ﻿/**
- * 値をko.observable化して返す。
- * 値が既にko.observableであれば、そのまま返す。
+ * 値を<code>ko.observable</code>化して返します。
+ * <p>
+ * 値が既に<code>ko.observable</code>であれば、それを返します。
+ * </p>
  * @param value 値
- * @return {ko.observable}
+ * @return <code>ko.observable</code>な値
  */
 function observable<T>(value: T): KnockoutObservable<T> {
 
@@ -14,10 +16,12 @@ function observable<T>(value: T): KnockoutObservable<T> {
 }
 
 /**
- * 値をko.observableArray化して返す。
- * 値が既にko.observableArrayであれば、そのまま返す。
+ * 値を<code>ko.observableArray</code>化して返します。
+ * <p>
+ * 値が既に<code>ko.observableArray</code>であれば、それを返します。
+ * </p>
  * @param array 配列
- * @return {ko.observableArray}
+ * @return <code>ko.observableArray</code>な値
  */
 function observableArray<T>(array: Array<T>): KnockoutObservableArray<T> {
 

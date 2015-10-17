@@ -1,17 +1,19 @@
 ﻿/**
- * 部署モデルのリポジトリクラス。
+ * 部署モデルのリポジトリです。
  */
 class DepartmentRepository {
 
     /**
-     * ローカルストレージキー。
-     * @return {string}
+     * ローカルストレージキーです。
      */
     private static LOCAL_STORAGE_KEY: string = 'sample.all-department-model';
 
     /**
-     * すべての部署モデルを返す。
-     * @param {function} callback - コールバック関数
+     * すべての部署モデルを返します。
+     * <p>
+     * すべての部署モデル(<code>DepartmentListModel</code>)は、コールバック関数の引数として返します。
+     * </p>
+     * @param callback コールバック関数
      */
     static findDepartmentAll (callback: Function) {
 
@@ -30,9 +32,11 @@ class DepartmentRepository {
     }
 
     /**
-     * すべての部署モデルを保存する。
-     * @param {DepartmentListModel} departmentListModel - 部署リストモデル
-     * @param {function} callback - コールバック関数
+     * すべての部署モデルを保存します。
+     * <p>現在、ローカルストレージに保存しています。</p>
+     * <p>保存完了は、コールバック関数を呼び出すことにより通知します。</p>
+     * @param departmentListModel 部署リストモデル
+     * @param callback コールバック関数
      */
     static saveDepartmentAll(departmentListModel: DepartmentListModel, callback: Function) {
 
@@ -45,9 +49,9 @@ class DepartmentRepository {
     }
 
     /**
-     * 部署リストモデルのXMLデータを生成する。
-     * @param {DepartmentListModel} departmentListModel - 部署リストモデル
-     * @return {String}
+     * 部署リストモデルのXMLデータを生成します。
+     * @param departmentListModel 部署リストモデル
+     * @return 部署リストモデルのXMLデータ
      */
     static createDepartmentListModelXml(departmentListModel: DepartmentListModel): string {
 
@@ -88,8 +92,8 @@ class DepartmentRepository {
     }
 
     /**
-     * 部署リストモデルをデフォルト値から生成する。
-     * @return {DepartmentListModel}
+     * 部署リストモデルをデフォルト値から生成します。
+     * @return 部署モデルリスト
      */
     static createDepartmentListModelFromDefault(): DepartmentListModel {
 
@@ -112,9 +116,9 @@ class DepartmentRepository {
     }
 
     /**
-     * 部署リストモデルをXMLから生成する。
-     * @param {string} xml - XML
-     * @return {DepartmentListModel}
+     * 部署リストモデルをXMLから生成します。
+     * @param xml XML
+     * @return 部署リストモデル
      */
     static createDepartmentListModelFromXml(xml: string): DepartmentListModel {
 

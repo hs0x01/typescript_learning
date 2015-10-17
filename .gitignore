@@ -6,6 +6,7 @@ after/.vs
 after/bin/
 after/obj/
 after/after.csproj.user
+after/unnecessary.js
 
 after_spec/.vs
 after_spec/bin/

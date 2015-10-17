@@ -1,28 +1,45 @@
 /**
- * 値をko.observable化して返す。
- * 値が既にko.observableであれば、そのまま返す。
+ * 値を{@code ko.observable}化して返します。
+ * <p>
+ * 値が既に<code>ko.observable</code>であれば、それを返します。
+ * </p>
  * @param value 値
- * @return {ko.observable}
+ * @return <code>ko.observable</code>な値
  */
 declare function observable<T>(value: T): KnockoutObservable<T>;
 /**
- * 値をko.observableArray化して返す。
- * 値が既にko.observableArrayであれば、そのまま返す。
+ * 値を<code>ko.observableArray</code>化して返します。
+ * <p>
+ * 値が既に<code>ko.observableArray</code>であれば、それを返します。
+ * </p>
  * @param array 配列
- * @return {ko.observableArray}
+ * @return <code>ko.observableArray</code>な値
  */
 declare function observableArray<T>(array: Array<T>): KnockoutObservableArray<T>;
 /**
- * 基底モデルクラス。
+ * すべてのモデルが共通に継承すべきモデルです。
  */
-declare class BaseModel {
+declare abstract class BaseModel {
+    /**
+     * オブジェクトIDです。
+     * <p>
+     * オブジェクトを一意に特定します。
+     * </p>
+     */
     private _id;
     /**
-     * コンストラクタ。
-     * @constructor
-     * @param {string} id - ID
+     * オブジェクトIDを引数にとるコンストラクタです。
+     * @param id オブジェクトID
      */
     constructor(id: string);
+    /**
+     * オブジェクトIDを返します。
+     * @return オブジェクトID
+     */
+    /**
+     * オブジェクトIDを設定します。
+     * @param value オブジェクトID
+     */
     id: KnockoutObservable<string>;
 }
 /**

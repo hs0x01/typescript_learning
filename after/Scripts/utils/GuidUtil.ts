@@ -1,11 +1,11 @@
 ﻿/**
- * GUIDのユーティリティクラス。
+ * GUIDのユーティリティです。
  */
 class GuidUtil {
 
     /**
-     * GUIDを生成する。
-     * @param {string}
+     * GUIDを生成します。
+     * @param GUID
      */
     static createGuid(): string {
         function s4() {

@@ -2,11 +2,12 @@
 var gulp       = require('gulp');
 var gulpTs     = require('gulp-typescript');
 var merge      = require('merge2');
-var watch      = require("gulp-watch");
+var watch      = require('gulp-watch');
 var gulpLess   = require('gulp-less');
 var del        = require('del');
 var plumber    = require('gulp-plumber');
-var typedoc    = require("gulp-typedoc");
+var typedoc    = require('gulp-typedoc');
+var color      = require('cli-color');
 
 // 定数定義
 var TS_TARGET       = 'ES5';
@@ -71,9 +72,8 @@ gulp.task('typedoc', function() {
         .pipe(typedoc({ 
             target: TS_TARGET,
             includeDeclarations: true,
-            out: "after_doc", 
-            json: "after_doc/to/file.json",
-            name: "after", 
+            out: 'after_doc',
+            name: 'after', 
             ignoreCompilerErrors: false,
             version: true,
         }))
@@ -94,18 +94,18 @@ gulp.task('watch', function() {
     
     // core.js更新通知
     watch(JS_OUTPUT_PATH + CORE_JS, function() {
-    	console.log('Update core.js');
+    	writeInfMsg('Update core.js');
     });
     // feature.js更新通知
     watch(JS_OUTPUT_PATH + FEATURE_JS, function() {
-    	console.log('Update feature.js');
+    	writeInfMsg('Update feature.js');
     })
 });
 
 // Coreに属するTypeScriptをコンパイルする関数
 function compileCoreTs() {
 
-	console.log('Start compileCoreTs');
+	writeInfMsg('Start compileCoreTs');
 
 	var result = gulp.src(CORE_TS_FILES).pipe(gulpTs(compileSettingsForCore));
 	
@@ -116,7 +116,7 @@ function compileCoreTs() {
 // Featureに属するTypeScriptをコンパイルする関数
 function compileFeatureTs() {
 
-	console.log('Start compileFeatureTs');
+	writeInfMsg('Start compileFeatureTs');
 
 	return merge(gulp.src(FEATURE_TS_FILES)
 				.pipe(gulpTs(compileSettingsForFeature))
@@ -131,11 +131,31 @@ function compileAllLess() {
 	return gulp.src(LESS_FILES)
 		.pipe(plumber({
 			'errorHandler': function(error) {
-				console.log(error);
-				this.emit('end');
+				writeErrMsg(error);
 			}
 		}))
         .pipe(gulpLess())
         .pipe(gulp.dest(CSS_OUTPUT_PATH));
 }
+
+// INFOメッセージをコンソール出力する関数
+function writeInfMsg(msg) {
+	console.log(color.cyanBright('[' + getHhmmss(new Date()) + '] ' + msg));
+}
+
+// ERRORメッセージをコンソール出力する関数
+function writeErrMsg(msg) {
+	console.log(color.redBright('[' + getHhmmss(new Date()) + '] ' + msg));
+}
+
+// 引数のDateオブジェクトから時分秒を取得し、hh:mm:ss形式で返す関数
+function getHhmmss(date) {
+	
+	var hh = ('0' + date.getHours()).slice(-2);
+	var mm = ('0' + date.getMinutes()).slice(-2);
+	var ss = ('0' + date.getSeconds()).slice(-2);
+	
+	return (hh + ':' + mm + ':' + ss);
+}
+
 

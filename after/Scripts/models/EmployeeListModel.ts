@@ -1,25 +1,35 @@
 ﻿/**
- * 社員リストモデルクラス。
+ * 社員モデルのリストを扱うモデルです。
  */
 class EmployeeListModel extends BaseModel {
 
+    /**
+     * 社員モデルのリストです。
+     */
     private _employeeModelList: KnockoutObservableArray<EmployeeModel>;
 
     /**
-     * コンストラクタ。
-     * @constructor
-     * @param {string} id - 社員リストモデルID
-     * @param {EmployeeModel} employeeModelList - 社員モデルリスト
+     * コンストラクタです。
+     * @param id 社員リストモデルID
+     * @param employeeModelList 社員モデルリスト
      */
-    constructor (id, employeeModelList) {
+    constructor (id: string, employeeModelList: Array<EmployeeModel>) {
         super(id);
         this._employeeModelList = <any>observableArray(employeeModelList || []);
     }
 
-    // アクセサ
+    /**
+     * 社員モデルリストを返します。
+     * @return 社員モデルリスト
+     */
     get employeeModelList(): KnockoutObservableArray<EmployeeModel> {
         return this._employeeModelList;
     }
+
+    /**
+     * 社員モデルリストを設定します。
+     * @param value 社員モデルリスト
+     */
     set employeeModelList(value: KnockoutObservableArray<EmployeeModel>) {
         this._employeeModelList = value;
     }

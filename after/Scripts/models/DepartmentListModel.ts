@@ -1,35 +1,50 @@
 ﻿/**
- * 部署リストモデルクラス。
+ * 部署モデルのリストを扱うモデルです。
  */
 class DepartmentListModel extends BaseModel {
 
+    /**
+     * 部署モデルのリストです。
+     */
     private _departmentModelList: KnockoutObservableArray<DepartmentModel>;
 
     /**
-     * コンストラクタ。
-     * @constructor
-     * @param {string} id - 部署リストモデルID
-     * @param {DepartmentModel} departmentModelList - 部署モデルリスト
+     * コンストラクタです。
+     * @param id 当モデルのID
+     * @param departmentModelList 部署モデルのリスト
      */
-    constructor(id, departmentModelList) {
+    constructor(id: string, departmentModelList: Array<DepartmentModel>) {
         super(id);
-        this._departmentModelList = <any>observableArray(departmentModelList || []);
+        this._departmentModelList = observableArray(departmentModelList || []);
     }
 
-    // アクセサ
+    /**
+     * 部署モデルのリストを返します。
+     * @return 部署モデルのリスト
+     */
     get departmentModelList(): KnockoutObservableArray<DepartmentModel> {
         return this._departmentModelList;
     }
+
+    /**
+     * 部署モデルのリストを設定します。
+     * @param value 部署モデルのリスト
+     */
     set departmentModelList(value: KnockoutObservableArray<DepartmentModel>) {
         this._departmentModelList = value;
     }
 
     /**
-     * 引数を条件に社員モデルを検索し、結果を返す。
-     * @param {string} employeeId - 社員ID
-     * @param {string} employeeName - 社員名
-     * @param {string} departmentId - 部署ID
-     * @return {EmployeeModel} 社員モデルのリスト
+     * 引数を条件に社員モデルを検索します。
+     * <ul>
+     *  <li>引数の値が設定されている場合、その値をAND条件として、検索条件に追加します。</li>
+     *  <li>引数の値が<code>null</code>の場合、その値を検索条件に追加しません。</li>
+     * </ul>
+     *
+     * @param employeeId 社員ID
+     * @param employeeName 社員名
+     * @param departmentId 部署ID
+     * @return 社員モデルのリスト。検索結果が0件の場合、空の配列を返します。
      */
     findEmployeeByArgs(employeeId: string, employeeName: string, departmentId: string): Array<EmployeeModel> {
 
@@ -67,9 +82,9 @@ class DepartmentListModel extends BaseModel {
     }
 
     /**
-     * 部署IDを条件に部署モデルを検索し、結果を返す。
-     * @param {string} departmentId - 部署ID
-     * @return {DepartmentModel} 部署モデル
+     * 部署IDを条件に部署モデルを検索します。
+     * @param departmentId 部署ID
+     * @return 部署モデル。検索結果が0件の場合、<code>null</code>を返します。
      */
     findDepartmentById(departmentId: string): DepartmentModel {
 
