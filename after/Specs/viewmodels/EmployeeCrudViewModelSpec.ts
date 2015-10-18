@@ -1,6 +1,4 @@
-﻿/// <reference path="../../../after/js/combined.d.ts" />
-
-describe('社員CRUDビューモデル', () => {
+﻿describe('社員CRUDビューモデル', () => {
 
     var employeeCrudViewModel: EmployeeCrudViewModel = null;
 

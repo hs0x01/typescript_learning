@@ -1,6 +1,4 @@
-﻿/// <reference path="../../../after/js/combined.d.ts" />
-
-describe('部署モデル', () => {
+﻿describe('部署モデル', () => {
 
     var departmentModel: DepartmentModel = null;
 

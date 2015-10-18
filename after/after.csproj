@@ -38,6 +38,9 @@
     <TypeScriptCompile Include="Scripts\utils\GuidUtil.ts" />
     <TypeScriptCompile Include="Scripts\viewmodels\EmployeeCrudViewModel.ts" />
     <TypeScriptCompile Include="Scripts\viewmodels\EmployeeListViewModel.ts" />
+    <TypeScriptCompile Include="Specs\lib\jasmine.d.ts" />
+    <TypeScriptCompile Include="Specs\models\DepartmentModelSpec.ts" />
+    <TypeScriptCompile Include="Specs\viewmodels\EmployeeCrudViewModelSpec.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\" />
