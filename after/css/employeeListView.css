@@ -1,10 +1,1 @@
-/* 社員リストビュー */
-.employee-list-view {
-  width: 400px;
-}
-.employee-list-view,
-.employee-list-view th,
-.employee-list-view td {
-  border-collapse: collapse;
-  border: 1px #000000 solid;
-}
+.employee-list-view{width:400px}.employee-list-view,.employee-list-view td,.employee-list-view th{border-collapse:collapse;border:1px solid #000}

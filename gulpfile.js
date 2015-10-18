@@ -1,22 +1,24 @@
 // ----------------------------------------------------------------------------
 //   モジュールロード
 // ----------------------------------------------------------------------------
-var gulp     = require('gulp');
-var gulpTs   = require('gulp-typescript');
-var merge    = require('merge2');
-var watch    = require('gulp-watch');
-var gulpLess = require('gulp-less');
-var del      = require('del');
-var plumber  = require('gulp-plumber');
-var typedoc  = require('gulp-typedoc');
-var color    = require('cli-color');
+var gulp      = require('gulp');
+var gulpTs    = require('gulp-typescript');
+var merge     = require('merge2');
+var watch     = require('gulp-watch');
+var gulpLess  = require('gulp-less');
+var del       = require('del');
+var plumber   = require('gulp-plumber');
+var typedoc   = require('gulp-typedoc');
+var uglify    = require('gulp-uglify');
+var minifyCss = require('gulp-minify-css');
+var color     = require('cli-color');
 
 // ----------------------------------------------------------------------------
 //   定数
 // ----------------------------------------------------------------------------
 var TS_TARGET       = 'ES5';
 var JS_OUTPUT_PATH  = 'after/js/';
-var CSS_OUTPUT_PATH = 'after/css';
+var CSS_OUTPUT_PATH = 'after/css/';
 var CORE_D_TS       = 'core.d.ts';
 var CORE_JS         = 'core.js';
 var FEATURE_D_TS    = 'feature.d.ts';
@@ -88,6 +90,12 @@ gulp.task('compileAllLess', compileAllLess);
 // TypeDocの生成
 gulp.task('typedoc', createTypedoc);
 
+// 圧縮
+gulp.task('minify', function () {
+    minifyJsFiles();
+    minifyCssFiles();
+});
+
 // ファイルの追加・更新・削除を監視し、変更があったら再コンパイル実行
 gulp.task('watch', function() {
 
@@ -99,6 +107,24 @@ gulp.task('watch', function() {
     
     // LESSのコンパイル
 	watch(LESS_FILES, compileAllLess);
+});
+
+// リリース
+gulp.task('release', function () {
+
+    compileSpecTs();
+
+    createTypedoc();
+
+    compileAllLess().on('finish', function () {
+        minifyCssFiles();
+    })
+
+    compileCoreTs().on('finish', function () {
+        compileFeatureTs().on('finish', function () {
+            minifyJsFiles();
+        });
+    });
 });
 
 // ----------------------------------------------------------------------------
@@ -147,7 +173,7 @@ function compileAllLess() {
 	
 	writeInfMsg('すべてのLESSのコンパイルを開始しました。');
 	
-	del.sync(CSS_OUTPUT_PATH + '/**/*');
+	del.sync(CSS_OUTPUT_PATH + '**/*');
 	
 	return gulp.src(LESS_FILES)
 		.pipe(plumber({
@@ -180,6 +206,33 @@ function createTypedoc() {
             writeInfMsg('TypeDoc生成が終了しました。');
         });
 }
+
+// JavaScriptファイルを圧縮する関数
+function minifyJsFiles() {
+
+    writeInfMsg('JSファイルの圧縮を開始しました。');
+
+    return gulp.src(JS_OUTPUT_PATH + '**/*.js')
+                .pipe(uglify())
+                .pipe(gulp.dest(JS_OUTPUT_PATH))
+                .on('finish', function () {
+                    writeInfMsg('JSファイルの圧縮が終了しました。');
+                });
+}
+
+// CSSファイルを圧縮する関数
+function minifyCssFiles() {
+
+    writeInfMsg('CSSファイルの圧縮を開始しました。');
+
+    return gulp.src(CSS_OUTPUT_PATH + '**/*.css')
+                .pipe(minifyCss())
+                .pipe(gulp.dest(CSS_OUTPUT_PATH))
+                .on('finish', function () {
+                    writeInfMsg('CSSファイルの圧縮が終了しました。');
+                });
+}
+
 
 // INFOメッセージをコンソール出力する関数
 function writeInfMsg(msg) {
