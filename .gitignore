@@ -5,6 +5,8 @@ node_modules/
 after/.vs
 after/bin/
 after/obj/
+after/css/
+after/js/
 after/after.csproj.user
 after/unnecessary.js
 
