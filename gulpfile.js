@@ -136,7 +136,13 @@ function compileCoreTs() {
 
 	writeInfMsg('TypeScript[Core]のコンパイルを開始しました。');
 
-	var result = gulp.src(CORE_TS_FILES).pipe(gulpTs(COMPILE_SETTINGS_FOR_CORE));
+	var result = gulp.src(CORE_TS_FILES)
+        .pipe(plumber({
+            'errorHandler': function (error) {
+                writeErrMsg(error);
+            }
+        }))
+        .pipe(gulpTs(COMPILE_SETTINGS_FOR_CORE));
 	
 	return merge([result.dts.pipe(gulp.dest(JS_OUTPUT_PATH)),
 				  result.js.pipe(gulp.dest(JS_OUTPUT_PATH))]).on('finish', function () {
@@ -149,7 +155,13 @@ function compileFeatureTs() {
 
 	writeInfMsg('TypeScript[Feature]のコンパイルを開始しました。');
 
-	var result = gulp.src(FEATURE_TS_FILES).pipe(gulpTs(COMPILE_SETTINGS_FOR_FEATURE));
+	var result = gulp.src(FEATURE_TS_FILES)
+        .pipe(plumber({
+            'errorHandler': function (error) {
+                writeErrMsg(error);
+            }
+        }))
+        .pipe(gulpTs(COMPILE_SETTINGS_FOR_FEATURE));
 	
 	return merge([result.js.pipe(gulp.dest(JS_OUTPUT_PATH))]).on('finish', function () {
 	    writeInfMsg('TypeScript[Feature]のコンパイルが終了しました。');
