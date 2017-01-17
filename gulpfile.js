@@ -44,21 +44,21 @@ const SPEC_TS_FILES    = ['after/Scripts/**/*.ts', 'after/Specs/**/*.ts'];
 const COMPILE_SETTINGS_FOR_CORE = gulpTs.createProject({
 	target           : TS_TARGET,
 	declaration      : true,
-    noExternalResolve: true,
+    noResolve        : true,
     out              : CORE_JS
 });
 
 // feature.jsのためのTypeScriptコンパイル設定
 const COMPILE_SETTINGS_FOR_FEATURE = gulpTs.createProject({
 	target           : TS_TARGET,
-    noExternalResolve: true,
+    noResolve        : true,
     out              : FEATURE_JS
 });
 
 // spec.jsのためのTypeScriptコンパイル設定
 const COMPILE_SETTINGS_FOR_SPEC = gulpTs.createProject({
 	target           : TS_TARGET,
-    noExternalResolve: true,
+    noResolve        : true,
     out              : SPEC_JS
 });
 
@@ -144,7 +144,7 @@ function compileCoreTs() {
                 writeErrMsg(error);
             }
         }))
-        .pipe(gulpTs(COMPILE_SETTINGS_FOR_CORE));
+        .pipe(COMPILE_SETTINGS_FOR_CORE());
 	
 	return merge([result.dts.pipe(gulp.dest(JS_OUTPUT_PATH)),
 				  result.js.pipe(gulp.dest(JS_OUTPUT_PATH))]).on('finish', function () {
@@ -163,7 +163,7 @@ function compileFeatureTs() {
                 writeErrMsg(error);
             }
         }))
-        .pipe(gulpTs(COMPILE_SETTINGS_FOR_FEATURE));
+        .pipe(COMPILE_SETTINGS_FOR_FEATURE());
 	
 	return merge([result.js.pipe(gulp.dest(JS_OUTPUT_PATH))]).on('finish', function () {
 	    writeInfMsg('TypeScript[Feature]のコンパイルが終了しました。');
@@ -175,7 +175,7 @@ function compileSpecTs() {
 
 	writeInfMsg('TypeScript[Spec]のコンパイルを開始しました。');
 
-	let result = gulp.src(SPEC_TS_FILES).pipe(gulpTs(COMPILE_SETTINGS_FOR_SPEC));
+	let result = gulp.src(SPEC_TS_FILES).pipe(COMPILE_SETTINGS_FOR_SPEC());
 	
 	return merge([result.js.pipe(gulp.dest(JS_OUTPUT_PATH))]).on('finish', function () {
 	    writeInfMsg('TypeScript[Spec]のコンパイルが終了しました。');
