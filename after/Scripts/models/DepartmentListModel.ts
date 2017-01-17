@@ -47,21 +47,21 @@ class DepartmentListModel extends BaseModel {
      * @return 社員モデルのリスト。検索結果が0件の場合、空の配列を返します。
      */
     findEmployeeByArgs(employeeId: string, employeeName: string, departmentId: string): Array<EmployeeModel> {
+        
+        let resultList: Array<EmployeeModel> = [];
 
-        var resultList: Array<EmployeeModel> = [];
+        let departmentModelList: Array<DepartmentModel> = this.departmentModelList();
 
-        var departmentModelList: Array<DepartmentModel> = this.departmentModelList();
+        for (let i = 0; i < departmentModelList.length; i++) {
 
-        for (var i = 0; i < departmentModelList.length; i++) {
+            let departmentModel: DepartmentModel = departmentModelList[i];
+            let employeeListModel: EmployeeListModel = departmentModel.employeeListModel();
 
-            var departmentModel: DepartmentModel = departmentModelList[i];
-            var employeeListModel: EmployeeListModel = departmentModel.employeeListModel();
+            let employeeModelList: Array<EmployeeModel> = employeeListModel.employeeModelList();
 
-            var employeeModelList: Array<EmployeeModel> = employeeListModel.employeeModelList();
+            for (let j = 0; j < employeeModelList.length; j++) {
 
-            for (var j = 0; j < employeeModelList.length; j++) {
-
-                var employeeModel: EmployeeModel = employeeModelList[j];
+                let employeeModel: EmployeeModel = employeeModelList[j];
 
                 if (employeeId && employeeId !== employeeModel.id()) {
                     continue;
@@ -88,11 +88,11 @@ class DepartmentListModel extends BaseModel {
      */
     findDepartmentById(departmentId: string): DepartmentModel {
 
-        var departmentModelList: Array<DepartmentModel> = this.departmentModelList();
+        let departmentModelList: Array<DepartmentModel> = this.departmentModelList();
 
-        for (var i = 0; i < departmentModelList.length; i++) {
+        for (let i = 0; i < departmentModelList.length; i++) {
 
-            var departmentModel: DepartmentModel = departmentModelList[i];
+            let departmentModel: DepartmentModel = departmentModelList[i];
 
             if (departmentId === departmentModel.id()) {
                 return departmentModel;

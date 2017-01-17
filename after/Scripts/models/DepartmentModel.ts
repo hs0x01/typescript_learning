@@ -63,7 +63,7 @@ class DepartmentModel extends BaseModel {
      * @param employeeName 社員名
      */
     addEmployee(employeeId: string, employeeName: string) {
-        var employeeModel: EmployeeModel = new EmployeeModel(employeeId, employeeName, this);
+        let employeeModel: EmployeeModel = new EmployeeModel(employeeId, employeeName, this);
         this.employeeListModel().employeeModelList.push(employeeModel);
     }
 
@@ -72,9 +72,9 @@ class DepartmentModel extends BaseModel {
      * @param employeeId 社員ID
      */
     deleteEmployee(employeeId: string) {
-        var employeeModelList: Array<EmployeeModel> = this.employeeListModel().employeeModelList();
-        for (var i = 0; i < employeeModelList.length; i++) {
-            var employeeModel: EmployeeModel = employeeModelList[i];
+        let employeeModelList: Array<EmployeeModel> = this.employeeListModel().employeeModelList();
+        for (let i = 0; i < employeeModelList.length; i++) {
+            let employeeModel: EmployeeModel = employeeModelList[i];
             if (employeeModel.id() === employeeId) {
                 // 社員削除
                 this.employeeListModel().employeeModelList.splice(i, 1);

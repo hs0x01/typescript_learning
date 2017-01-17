@@ -60,10 +60,10 @@ class EmployeeListViewModel {
      */
     getSelectedEmployee(): EmployeeModel {
 
-        var employeeListModel: EmployeeListModel = this.employeeListModel();
-        var employeeModelList: Array<EmployeeModel> = employeeListModel.employeeModelList();
+        let employeeListModel: EmployeeListModel = this.employeeListModel();
+        let employeeModelList: Array<EmployeeModel> = employeeListModel.employeeModelList();
 
-        var employee: EmployeeModel = null;
+        let employee: EmployeeModel = null;
         if (this.selectedRowIdx() >= 0 && this.selectedRowIdx() < employeeModelList.length) {
             employee = employeeListModel.employeeModelList()[this.selectedRowIdx()];
         }

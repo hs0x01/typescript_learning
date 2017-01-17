@@ -1,5 +1,5 @@
 build.path.exportedFolder=
-build.path.sourceFolder=after/Scripts,after/Specs
+build.path.sourceFolder=after/Scripts;after/Specs
 compiler.outputDirOption=
 compiler.outputFileOption=
 eclipse.preferences.version=1

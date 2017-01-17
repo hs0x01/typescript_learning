@@ -50,7 +50,7 @@ class EmployeeCrudViewModel {
      */
     constructor(callback: Function) {
 
-        var thisViewModel = this;
+        let thisViewModel = this;
 
         // 変更があったときにfindEmployeeメソッドを実行するように設定
         this._employeeIdFind.subscribe(function () {
@@ -207,12 +207,12 @@ class EmployeeCrudViewModel {
      */
     findEmployee() {
 
-        var employeeList: Array<EmployeeModel> = this.departmentListModel().findEmployeeByArgs(
+        let employeeList: Array<EmployeeModel> = this.departmentListModel().findEmployeeByArgs(
                                             this.employeeIdFind(),
                                             this.employeeNameFind(),
                                             !this.departmentFind() ? null : this.departmentFind().id());
 
-        var employeeModelList: KnockoutObservableArray<EmployeeModel>
+        let employeeModelList: KnockoutObservableArray<EmployeeModel>
                                     = this.employeeListViewModel.employeeListModel().employeeModelList;
 
         employeeModelList(employeeList);
@@ -222,7 +222,7 @@ class EmployeeCrudViewModel {
      * 社員を選択します。
      */
     selectEmployee() {
-        var selectedEmployee: EmployeeModel = this.employeeListViewModel.getSelectedEmployee();
+        let selectedEmployee: EmployeeModel = this.employeeListViewModel.getSelectedEmployee();
         this.employeeId(selectedEmployee.id());
         this.employeeName(selectedEmployee.name());
         this.department(selectedEmployee.departmentModel());
@@ -244,7 +244,7 @@ class EmployeeCrudViewModel {
             return false;
         }
 
-        var employeeList: Array<EmployeeModel> =
+        let employeeList: Array<EmployeeModel> =
                         this.departmentListModel().findEmployeeByArgs(this.employeeId(), null, null);
         if (employeeList.length > 0) {
             return false;
@@ -269,7 +269,7 @@ class EmployeeCrudViewModel {
             return false;
         }
 
-        var employeeList: Array<EmployeeModel> =
+        let employeeList: Array<EmployeeModel> =
                         this.departmentListModel().findEmployeeByArgs(this.employeeId(), null, null);
         if (employeeList.length === 0) {
             return false;
@@ -288,7 +288,7 @@ class EmployeeCrudViewModel {
             return false;
         }
         
-        var employeeList = this.departmentListModel().findEmployeeByArgs(this.employeeId(), null, null);
+        let employeeList = this.departmentListModel().findEmployeeByArgs(this.employeeId(), null, null);
         if (employeeList.length === 0) {
             return false;
         }
@@ -305,7 +305,7 @@ class EmployeeCrudViewModel {
             return;
         }
 
-        var departmentModel: DepartmentModel =
+        let departmentModel: DepartmentModel =
                     this.departmentListModel().findDepartmentById(this.department().id());
 
         // 追加
@@ -327,10 +327,10 @@ class EmployeeCrudViewModel {
             return;
         }
 
-        var employeeList: Array<EmployeeModel> =
+        let employeeList: Array<EmployeeModel> =
                     this.departmentListModel().findEmployeeByArgs(this.employeeId(), null, null);
 
-        var employeeModel: EmployeeModel = employeeList[0];
+        let employeeModel: EmployeeModel = employeeList[0];
 
         // 更新
         employeeModel.updateEmployeeInfo(this.employeeName(), this.department());
@@ -351,10 +351,10 @@ class EmployeeCrudViewModel {
             return;
         }
 
-        var employeeList: Array<EmployeeModel> =
+        let employeeList: Array<EmployeeModel> =
                     this.departmentListModel().findEmployeeByArgs(this.employeeId(), null, null);
 
-        var employeeModel: EmployeeModel = employeeList[0];
+        let employeeModel: EmployeeModel = employeeList[0];
 
         // 削除
         employeeModel.departmentModel().deleteEmployee(this.employeeId());

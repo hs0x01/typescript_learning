@@ -1,12 +1,12 @@
 ﻿describe('部署モデル', () => {
 
-    var departmentModel: DepartmentModel = null;
+    let departmentModel: DepartmentModel = null;
 
     beforeEach(() => {
 
-        var employeeModelList: Array<EmployeeModel> = [];
+        let employeeModelList: Array<EmployeeModel> = [];
 
-        var employeeListModel: EmployeeListModel = new EmployeeListModel('1', employeeModelList);
+        let employeeListModel: EmployeeListModel = new EmployeeListModel('1', employeeModelList);
 
         // テスト対象
         departmentModel = new DepartmentModel('1', 'システム開発部', employeeListModel);
@@ -18,11 +18,11 @@
 
             departmentModel.addEmployee('1', 'テスト　太郎');
 
-            var employeeModelList: Array<EmployeeModel> = departmentModel.employeeListModel().employeeModelList();
+            let employeeModelList: Array<EmployeeModel> = departmentModel.employeeListModel().employeeModelList();
 
             expect(employeeModelList.length).toBe(1);
 
-            var employeeModel: EmployeeModel = employeeModelList[0];
+            let employeeModel: EmployeeModel = employeeModelList[0];
 
             expect(employeeModel.id()).toBe('1');
             expect(employeeModel.name()).toBe('テスト　太郎');
@@ -36,7 +36,7 @@
 
             departmentModel.addEmployee('1', 'テスト　太郎');
 
-            var employeeModelList: Array<EmployeeModel> = departmentModel.employeeListModel().employeeModelList();
+            let employeeModelList: Array<EmployeeModel> = departmentModel.employeeListModel().employeeModelList();
 
             expect(employeeModelList.length).toBe(1);
 
@@ -49,7 +49,7 @@
 
             departmentModel.addEmployee('1', 'テスト　太郎');
 
-            var employeeModelList: Array<EmployeeModel> = departmentModel.employeeListModel().employeeModelList();
+            let employeeModelList: Array<EmployeeModel> = departmentModel.employeeListModel().employeeModelList();
 
             expect(employeeModelList.length).toBe(1);
 

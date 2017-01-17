@@ -16,10 +16,10 @@ class DepartmentRepository {
      * @param callback コールバック関数
      */
     static findDepartmentAll (callback: Function) {
+        
+        let departmentListModel: DepartmentListModel = null;
 
-        var departmentListModel: DepartmentListModel = null;
-
-        var item = localStorage.getItem(this.LOCAL_STORAGE_KEY);
+        let item = localStorage.getItem(this.LOCAL_STORAGE_KEY);
 
         if (item === null) {
             departmentListModel = this.createDepartmentListModelFromDefault();
@@ -40,7 +40,7 @@ class DepartmentRepository {
      */
     static saveDepartmentAll(departmentListModel: DepartmentListModel, callback: Function) {
 
-        var xml: string = this.createDepartmentListModelXml(departmentListModel);
+        let xml: string = this.createDepartmentListModelXml(departmentListModel);
         
         localStorage.setItem(this.LOCAL_STORAGE_KEY, xml);
 
@@ -55,28 +55,28 @@ class DepartmentRepository {
      */
     static createDepartmentListModelXml(departmentListModel: DepartmentListModel): string {
 
-        var xml: string = '<?xml version="1.0" encoding="UTF-8"?>';
+        let xml: string = '<?xml version="1.0" encoding="UTF-8"?>';
         xml += '    <departmentListModel>';
         xml += '        <id>' + departmentListModel.id() + '</id>';
 
-        var departmentModelList: Array<DepartmentModel> = departmentListModel.departmentModelList();
+        let departmentModelList: Array<DepartmentModel> = departmentListModel.departmentModelList();
 
-        for (var i = 0; i < departmentModelList.length; i++) {
-            var departmentModel: DepartmentModel = departmentModelList[i];
+        for (let i = 0; i < departmentModelList.length; i++) {
+            let departmentModel: DepartmentModel = departmentModelList[i];
 
             xml += '    <departmentModel>';
             xml += '        <id>' + departmentModel.id() + '</id>';
             xml += '        <name>' + departmentModel.name() + '</name>';
             xml += '        <employeeListModel>';
 
-            var employeeListModel: EmployeeListModel = departmentModel.employeeListModel();
+            let employeeListModel: EmployeeListModel = departmentModel.employeeListModel();
 
             xml += '            <id>' + employeeListModel.id() + '</id>';
 
-            var employeeModelList: Array<EmployeeModel> = employeeListModel.employeeModelList();
+            let employeeModelList: Array<EmployeeModel> = employeeListModel.employeeModelList();
 
-            for (var j = 0; j < employeeModelList.length; j++) {
-                var employeeModel: EmployeeModel = employeeModelList[j];
+            for (let j = 0; j < employeeModelList.length; j++) {
+                let employeeModel: EmployeeModel = employeeModelList[j];
 
                 xml += '        <employeeModel>';
                 xml += '            <id>' + employeeModel.id() + '</id>';
@@ -97,20 +97,20 @@ class DepartmentRepository {
      */
     static createDepartmentListModelFromDefault(): DepartmentListModel {
 
-        var empInDev: EmployeeListModel = new EmployeeListModel(GuidUtil.createGuid(), []);
-        var empInSales: EmployeeListModel = new EmployeeListModel(GuidUtil.createGuid(), []);
-        var empInGeneral: EmployeeListModel = new EmployeeListModel(GuidUtil.createGuid(), []);
+        let empInDev: EmployeeListModel = new EmployeeListModel(GuidUtil.createGuid(), []);
+        let empInSales: EmployeeListModel = new EmployeeListModel(GuidUtil.createGuid(), []);
+        let empInGeneral: EmployeeListModel = new EmployeeListModel(GuidUtil.createGuid(), []);
 
-        var devDeptModel: DepartmentModel = new DepartmentModel(GuidUtil.createGuid(), '開発部', empInDev);
-        var salesDeptModel: DepartmentModel = new DepartmentModel(GuidUtil.createGuid(), '営業部', empInSales);
-        var generalDeptModel: DepartmentModel = new DepartmentModel(GuidUtil.createGuid(), '総務部', empInGeneral);
+        let devDeptModel: DepartmentModel = new DepartmentModel(GuidUtil.createGuid(), '開発部', empInDev);
+        let salesDeptModel: DepartmentModel = new DepartmentModel(GuidUtil.createGuid(), '営業部', empInSales);
+        let generalDeptModel: DepartmentModel = new DepartmentModel(GuidUtil.createGuid(), '総務部', empInGeneral);
 
-        var departmentModelList: Array<DepartmentModel> = [];
+        let departmentModelList: Array<DepartmentModel> = [];
         departmentModelList.push(devDeptModel);
         departmentModelList.push(salesDeptModel);
         departmentModelList.push(generalDeptModel);
 
-        var departmentListModel: DepartmentListModel = new DepartmentListModel(GuidUtil.createGuid(), departmentModelList);
+        let departmentListModel: DepartmentListModel = new DepartmentListModel(GuidUtil.createGuid(), departmentModelList);
 
         return departmentListModel;
     }
@@ -122,42 +122,42 @@ class DepartmentRepository {
      */
     static createDepartmentListModelFromXml(xml: string): DepartmentListModel {
 
-        var $xml: JQuery = $($.parseXML(xml));
+        let $xml: JQuery = $($.parseXML(xml));
 
-        var $departmentListModelXml: JQuery = $xml.find('departmentListModel');
+        let $departmentListModelXml: JQuery = $xml.find('departmentListModel');
 
-        var departmentListModelId: string = $departmentListModelXml.children('id').text();
+        let departmentListModelId: string = $departmentListModelXml.children('id').text();
 
         // 部署リストモデル
-        var departmentListModel: DepartmentListModel = new DepartmentListModel(departmentListModelId, []);
+        let departmentListModel: DepartmentListModel = new DepartmentListModel(departmentListModelId, []);
 
-        var $departmentModelXml: JQuery = $departmentListModelXml.find('departmentModel');
+        let $departmentModelXml: JQuery = $departmentListModelXml.find('departmentModel');
 
         $departmentModelXml.each(function () {
 
-            var $deptXml: JQuery = $(this);
-            var departmentId: string = $deptXml.children('id').text();
-            var departmentName: string = $deptXml.children('name').text();
+            let $deptXml: JQuery = $(this);
+            let departmentId: string = $deptXml.children('id').text();
+            let departmentName: string = $deptXml.children('name').text();
 
-            var $employeeListModelXml: JQuery = $deptXml.find('employeeListModel');
+            let $employeeListModelXml: JQuery = $deptXml.find('employeeListModel');
 
-            var employeeListModelId: string = $employeeListModelXml.children('id').text();
+            let employeeListModelId: string = $employeeListModelXml.children('id').text();
 
             // 部署モデル
-            var departmentModel: DepartmentModel = new DepartmentModel(departmentId, departmentName,
+            let departmentModel: DepartmentModel = new DepartmentModel(departmentId, departmentName,
                                                         new EmployeeListModel(employeeListModelId, []));
 
             // 部署リストに部署を追加
             departmentListModel.departmentModelList.push(departmentModel);
 
-            var $employeeModelXml: JQuery = $employeeListModelXml.find('employeeModel');
+            let $employeeModelXml: JQuery = $employeeListModelXml.find('employeeModel');
 
             $employeeModelXml.each(function () {
 
-                var $empXml: JQuery = $(this);
+                let $empXml: JQuery = $(this);
 
-                var employeeId: string = $empXml.children('id').text();
-                var employeeName: string = $empXml.children('name').text();
+                let employeeId: string = $empXml.children('id').text();
+                let employeeName: string = $empXml.children('name').text();
 
                 // 部署に社員を追加
                 departmentModel.addEmployee(employeeId, employeeName);

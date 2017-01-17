@@ -70,12 +70,12 @@ class EmployeeModel extends BaseModel {
 
         if (this.departmentModel().id() !== departmentModel.id()) {
 
-            var employeeModelList: KnockoutObservableArray<EmployeeModel>
+            let employeeModelList: KnockoutObservableArray<EmployeeModel>
                                         = this.departmentModel().employeeListModel().employeeModelList;
 
-            for (var i = 0; i < employeeModelList().length; i++) {
+            for (let i = 0; i < employeeModelList().length; i++) {
 
-                var employeeModel: EmployeeModel = employeeModelList()[i];
+                let employeeModel: EmployeeModel = employeeModelList()[i];
 
                 if (employeeModel.id() === this.id()) {
                     // 元の部署から社員を削除
