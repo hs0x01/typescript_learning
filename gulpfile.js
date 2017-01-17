@@ -1,45 +1,47 @@
+'use strict'
+
 // ----------------------------------------------------------------------------
 //   モジュールロード
 // ----------------------------------------------------------------------------
-var gulp      = require('gulp');
-var gulpTs    = require('gulp-typescript');
-var merge     = require('merge2');
-var watch     = require('gulp-watch');
-var gulpLess  = require('gulp-less');
-var del       = require('del');
-var plumber   = require('gulp-plumber');
-var typedoc   = require('gulp-typedoc');
-var uglify    = require('gulp-uglify');
-var minifyCss = require('gulp-minify-css');
-var color     = require('cli-color');
+const gulp      = require('gulp');
+const gulpTs    = require('gulp-typescript');
+const merge     = require('merge2');
+const watch     = require('gulp-watch');
+const gulpLess  = require('gulp-less');
+const del       = require('del');
+const plumber   = require('gulp-plumber');
+const typedoc   = require('gulp-typedoc');
+const uglify    = require('gulp-uglify');
+const minifyCss = require('gulp-minify-css');
+const color     = require('cli-color');
 
 // ----------------------------------------------------------------------------
 //   定数
 // ----------------------------------------------------------------------------
-var TS_TARGET       = 'ES5';
-var JS_OUTPUT_PATH  = 'after/js/';
-var CSS_OUTPUT_PATH = 'after/css/';
-var CORE_D_TS       = 'core.d.ts';
-var CORE_JS         = 'core.js';
-var FEATURE_D_TS    = 'feature.d.ts';
-var FEATURE_JS      = 'feature.js';
-var SPEC_JS         = 'spec.js';
-var LESS_FILES      = 'after/less/**/*.less';
+const TS_TARGET       = 'ES5';
+const JS_OUTPUT_PATH  = 'after/js/';
+const CSS_OUTPUT_PATH = 'after/css/';
+const CORE_D_TS       = 'core.d.ts';
+const CORE_JS         = 'core.js';
+const FEATURE_D_TS    = 'feature.d.ts';
+const FEATURE_JS      = 'feature.js';
+const SPEC_JS         = 'spec.js';
+const LESS_FILES      = 'after/less/**/*.less';
 
-var CORE_TS_FILES = ['after/Scripts/extensions/*.ts',
+const CORE_TS_FILES = ['after/Scripts/extensions/*.ts',
 					 'after/Scripts/lib/*.ts',
 					 'after/Scripts/models/*.ts',
 					 'after/Scripts/repositories/*.ts',
 					 'after/Scripts/utils/*.ts'];
 					 
-var FEATURE_TS_FILES = ['after/Scripts/lib/*.d.ts',
+const FEATURE_TS_FILES = ['after/Scripts/lib/*.d.ts',
 						'after/Scripts/viewmodels/*.ts',
 						JS_OUTPUT_PATH + CORE_D_TS];
 
-var SPEC_TS_FILES    = ['after/Scripts/**/*.ts', 'after/Specs/**/*.ts'];
+const SPEC_TS_FILES    = ['after/Scripts/**/*.ts', 'after/Specs/**/*.ts'];
 
 // core.jsのためのTypeScriptコンパイル設定
-var COMPILE_SETTINGS_FOR_CORE = gulpTs.createProject({
+const COMPILE_SETTINGS_FOR_CORE = gulpTs.createProject({
 	target           : TS_TARGET,
 	declaration      : true,
     noExternalResolve: true,
@@ -47,14 +49,14 @@ var COMPILE_SETTINGS_FOR_CORE = gulpTs.createProject({
 });
 
 // feature.jsのためのTypeScriptコンパイル設定
-var COMPILE_SETTINGS_FOR_FEATURE = gulpTs.createProject({
+const COMPILE_SETTINGS_FOR_FEATURE = gulpTs.createProject({
 	target           : TS_TARGET,
     noExternalResolve: true,
     out              : FEATURE_JS
 });
 
 // spec.jsのためのTypeScriptコンパイル設定
-var COMPILE_SETTINGS_FOR_SPEC = gulpTs.createProject({
+const COMPILE_SETTINGS_FOR_SPEC = gulpTs.createProject({
 	target           : TS_TARGET,
     noExternalResolve: true,
     out              : SPEC_JS
@@ -136,7 +138,7 @@ function compileCoreTs() {
 
 	writeInfMsg('TypeScript[Core]のコンパイルを開始しました。');
 
-	var result = gulp.src(CORE_TS_FILES)
+	let result = gulp.src(CORE_TS_FILES)
         .pipe(plumber({
             'errorHandler': function (error) {
                 writeErrMsg(error);
@@ -155,7 +157,7 @@ function compileFeatureTs() {
 
 	writeInfMsg('TypeScript[Feature]のコンパイルを開始しました。');
 
-	var result = gulp.src(FEATURE_TS_FILES)
+	let result = gulp.src(FEATURE_TS_FILES)
         .pipe(plumber({
             'errorHandler': function (error) {
                 writeErrMsg(error);
@@ -173,7 +175,7 @@ function compileSpecTs() {
 
 	writeInfMsg('TypeScript[Spec]のコンパイルを開始しました。');
 
-	var result = gulp.src(SPEC_TS_FILES).pipe(gulpTs(COMPILE_SETTINGS_FOR_SPEC));
+	let result = gulp.src(SPEC_TS_FILES).pipe(gulpTs(COMPILE_SETTINGS_FOR_SPEC));
 	
 	return merge([result.js.pipe(gulp.dest(JS_OUTPUT_PATH))]).on('finish', function () {
 	    writeInfMsg('TypeScript[Spec]のコンパイルが終了しました。');
@@ -259,11 +261,9 @@ function writeErrMsg(msg) {
 // 引数のDateオブジェクトから時分秒を取得し、hh:mm:ss形式で返す関数
 function getHhmmss(date) {
 	
-	var hh = ('0' + date.getHours()).slice(-2);
-	var mm = ('0' + date.getMinutes()).slice(-2);
-	var ss = ('0' + date.getSeconds()).slice(-2);
+	let hh = ('0' + date.getHours()).slice(-2);
+	let mm = ('0' + date.getMinutes()).slice(-2);
+	let ss = ('0' + date.getSeconds()).slice(-2);
 	
 	return (hh + ':' + mm + ':' + ss);
 }
-
-
