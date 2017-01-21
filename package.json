@@ -13,7 +13,7 @@
     "del": "latest",
     "gulp": "latest",
     "gulp-less": "latest",
-    "gulp-minify-css": "latest",
+    "gulp-clean-css": "latest",
     "gulp-plumber": "latest",
     "typedoc": "latest", 
     "gulp-typedoc": "latest",

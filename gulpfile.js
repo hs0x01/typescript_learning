@@ -12,7 +12,7 @@ const del       = require('del');
 const plumber   = require('gulp-plumber');
 const typedoc   = require('gulp-typedoc');
 const uglify    = require('gulp-uglify');
-const minifyCss = require('gulp-minify-css');
+const minifyCss = require('gulp-clean-css');
 const color     = require('cli-color');
 
 // ----------------------------------------------------------------------------
