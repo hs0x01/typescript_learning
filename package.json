@@ -15,10 +15,11 @@
     "gulp-less": "latest",
     "gulp-clean-css": "latest",
     "gulp-plumber": "latest",
-    "typedoc": "latest", 
+    "typedoc": "latest",
     "gulp-typedoc": "latest",
     "typescript": "latest",
     "gulp-typescript": "latest",
+    "gulp-sourcemaps": "latest",
     "gulp-uglify": "latest",
     "gulp-watch": "latest",
     "merge2": "latest"

@@ -5,6 +5,7 @@
 // ----------------------------------------------------------------------------
 const gulp      = require('gulp');
 const gulpTs    = require('gulp-typescript');
+const srcMaps    = require('gulp-sourcemaps');
 const merge     = require('merge2');
 const watch     = require('gulp-watch');
 const gulpLess  = require('gulp-less');
@@ -121,7 +122,7 @@ gulp.task('release', function () {
 
     compileSpecTs();
 
-    createTypedoc();
+    //createTypedoc();
 
     compileAllLess().on('finish', function () {
         minifyCssFiles();
@@ -143,18 +144,21 @@ function compileCoreTs() {
 
 	writeInfMsg('TypeScript[Core]のコンパイルを開始しました。');
 
-	let result = gulp.src(CORE_TS_FILES)
+    let result = gulp.src(CORE_TS_FILES)
+        .pipe(srcMaps.init())
         .pipe(plumber({
             'errorHandler': function (error) {
                 writeErrMsg(error);
             }
         }))
-        .pipe(COMPILE_SETTINGS_FOR_CORE());
-	
-	return merge([result.dts.pipe(gulp.dest(JS_OUTPUT_PATH)),
-				  result.js.pipe(gulp.dest(JS_OUTPUT_PATH))]).on('finish', function () {
-				      writeInfMsg('TypeScript[Core]のコンパイルが終了しました。');
-				  });
+        .pipe(COMPILE_SETTINGS_FOR_CORE())
+        .pipe(srcMaps.write('./'))
+        .pipe(gulp.dest(JS_OUTPUT_PATH))
+        .on('finish', function () {
+            writeInfMsg('TypeScript[Core]のコンパイルが終了しました。');
+        });
+
+    return result;
 }
 
 // Featureに属するTypeScriptをコンパイルする関数
@@ -162,17 +166,21 @@ function compileFeatureTs() {
 
 	writeInfMsg('TypeScript[Feature]のコンパイルを開始しました。');
 
-	let result = gulp.src(FEATURE_TS_FILES)
+    let result = gulp.src(FEATURE_TS_FILES)
+        .pipe(srcMaps.init())
         .pipe(plumber({
             'errorHandler': function (error) {
                 writeErrMsg(error);
             }
         }))
-        .pipe(COMPILE_SETTINGS_FOR_FEATURE());
-	
-	return merge([result.js.pipe(gulp.dest(JS_OUTPUT_PATH))]).on('finish', function () {
-	    writeInfMsg('TypeScript[Feature]のコンパイルが終了しました。');
-	});
+        .pipe(COMPILE_SETTINGS_FOR_FEATURE())
+        .pipe(srcMaps.write('./'))
+        .pipe(gulp.dest(JS_OUTPUT_PATH))
+        .on('finish', function () {
+            writeInfMsg('TypeScript[Feature]のコンパイルが終了しました。');
+        });
+    
+    return result;
 }
 
 // Specに属するTypeScriptをコンパイルする関数
@@ -180,11 +188,16 @@ function compileSpecTs() {
 
 	writeInfMsg('TypeScript[Spec]のコンパイルを開始しました。');
 
-	let result = gulp.src(SPEC_TS_FILES).pipe(COMPILE_SETTINGS_FOR_SPEC());
-	
-	return merge([result.js.pipe(gulp.dest(JS_OUTPUT_PATH))]).on('finish', function () {
-	    writeInfMsg('TypeScript[Spec]のコンパイルが終了しました。');
-	});
+    let result = gulp.src(SPEC_TS_FILES)
+                    .pipe(srcMaps.init())
+                    .pipe(COMPILE_SETTINGS_FOR_SPEC())
+                    .pipe(srcMaps.write('./'))
+                    .pipe(gulp.dest(JS_OUTPUT_PATH))
+                    .on('finish', function () {
+                        writeInfMsg('TypeScript[Spec]のコンパイルが終了しました。');
+                    });
+    
+    return result;
 }
 
 // すべてのLESSをコンパイルする関数
