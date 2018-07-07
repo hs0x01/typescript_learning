@@ -15,7 +15,7 @@ TypeScriptを中心にGulp、Jasmineなどのサンプルコードを置いて�
  
 ## Usage
 1. Node.jsをインストール
-    * v6.9.4で動くのは確認しました。 
+    * v8.11.3で動くのは確認しました。 
 2. package.jsonがあるフォルダに移動して、`npm install`を実行
 3. gulpコマンドを実行できるように、`npm install -g gulp@latest`を実行
 4. `gulp release`を実行
