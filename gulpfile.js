@@ -14,16 +14,15 @@ const typedoc   = require('gulp-typedoc');
 const uglify    = require('gulp-uglify');
 const minifyCss = require('gulp-clean-css');
 const color     = require('cli-color');
+const fs        = require('fs');
 
 // ----------------------------------------------------------------------------
 //   定数
 // ----------------------------------------------------------------------------
-const TS_TARGET       = 'ES5';
 const JS_OUTPUT_PATH  = 'after/js/';
 const CSS_OUTPUT_PATH = 'after/css/';
 const CORE_D_TS       = 'core.d.ts';
 const CORE_JS         = 'core.js';
-const FEATURE_D_TS    = 'feature.d.ts';
 const FEATURE_JS      = 'feature.js';
 const SPEC_JS         = 'spec.js';
 const LESS_FILES      = 'after/less/**/*.less';
@@ -40,27 +39,33 @@ const FEATURE_TS_FILES = ['after/Scripts/lib/*.d.ts',
 
 const SPEC_TS_FILES    = ['after/Scripts/**/*.ts', 'after/Specs/**/*.ts'];
 
+const TS_CONFIG_NAME   = 'tsconfig.json';
+
+const TS_CONFIG_JSON   = JSON.parse(fs.readFileSync(TS_CONFIG_NAME));
+
 // core.jsのためのTypeScriptコンパイル設定
-const COMPILE_SETTINGS_FOR_CORE = gulpTs.createProject({
-	target           : TS_TARGET,
-	declaration      : true,
-    noResolve        : true,
-    out              : CORE_JS
-});
+const COMPILE_SETTINGS_FOR_CORE = gulpTs.createProject(
+    TS_CONFIG_NAME,
+    {
+        declaration      : true,
+        out              : CORE_JS
+    });
 
 // feature.jsのためのTypeScriptコンパイル設定
-const COMPILE_SETTINGS_FOR_FEATURE = gulpTs.createProject({
-	target           : TS_TARGET,
-    noResolve        : true,
-    out              : FEATURE_JS
-});
+const COMPILE_SETTINGS_FOR_FEATURE = gulpTs.createProject(
+    TS_CONFIG_NAME,
+    {
+        out              : FEATURE_JS
+    });
 
 // spec.jsのためのTypeScriptコンパイル設定
-const COMPILE_SETTINGS_FOR_SPEC = gulpTs.createProject({
-	target           : TS_TARGET,
-    noResolve        : true,
-    out              : SPEC_JS
-});
+const COMPILE_SETTINGS_FOR_SPEC = gulpTs.createProject(
+    TS_CONFIG_NAME,
+    {
+        out              : SPEC_JS
+    });
+
+
 
 // ----------------------------------------------------------------------------
 //   タスク
@@ -206,15 +211,18 @@ function createTypedoc() {
     
     writeInfMsg('TypeDoc生成を開始しました。');
 
+    // TODO 動かない・・・
+    
     return gulp
         .src(['after/Scripts/**/*.ts'])
         .pipe(typedoc({
-            target : TS_TARGET,
+            target : TS_CONFIG_JSON.compilerOptions.target,
             out    : 'after_doc',
             name   : 'after',
             version: true,
             includeDeclarations : true,
             ignoreCompilerErrors: false,
+            mode: 'file'
         }))
         .on('finish', function () {
             writeInfMsg('TypeDoc生成が終了しました。');
