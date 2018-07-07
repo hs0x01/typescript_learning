@@ -4,5 +4,9 @@
         "sourceMap": false,
         "declaration": true,
         "noResolve": true
-    }
+    },
+    "include": [
+        "after/Scripts/**/*.ts",
+        "after/Specs/**/*.ts"
+    ]
 }
