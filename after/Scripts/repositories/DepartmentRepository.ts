@@ -122,24 +122,24 @@ class DepartmentRepository {
      */
     static createDepartmentListModelFromXml(xml: string): DepartmentListModel {
 
-        let $xml: JQuery = $($.parseXML(xml));
+        let $xml: JQuery<XMLDocument> = $($.parseXML(xml));
 
-        let $departmentListModelXml: JQuery = $xml.find('departmentListModel');
+        let $departmentListModelXml: JQuery<XMLDocument> = $xml.find('departmentListModel');
 
         let departmentListModelId: string = $departmentListModelXml.children('id').text();
 
         // 部署リストモデル
         let departmentListModel: DepartmentListModel = new DepartmentListModel(departmentListModelId, []);
 
-        let $departmentModelXml: JQuery = $departmentListModelXml.find('departmentModel');
+        let $departmentModelXml: JQuery<XMLDocument> = $departmentListModelXml.find('departmentModel');
 
         $departmentModelXml.each(function () {
 
-            let $deptXml: JQuery = $(this);
+            let $deptXml: JQuery<XMLDocument> = $(this);
             let departmentId: string = $deptXml.children('id').text();
             let departmentName: string = $deptXml.children('name').text();
 
-            let $employeeListModelXml: JQuery = $deptXml.find('employeeListModel');
+            let $employeeListModelXml: JQuery<XMLDocument> = $deptXml.find('employeeListModel');
 
             let employeeListModelId: string = $employeeListModelXml.children('id').text();
 
@@ -150,11 +150,11 @@ class DepartmentRepository {
             // 部署リストに部署を追加
             departmentListModel.departmentModelList.push(departmentModel);
 
-            let $employeeModelXml: JQuery = $employeeListModelXml.find('employeeModel');
+            let $employeeModelXml: JQuery<XMLDocument> = $employeeListModelXml.find('employeeModel');
 
             $employeeModelXml.each(function () {
 
-                let $empXml: JQuery = $(this);
+                let $empXml: JQuery<XMLDocument> = $(this);
 
                 let employeeId: string = $empXml.children('id').text();
                 let employeeName: string = $empXml.children('name').text();
