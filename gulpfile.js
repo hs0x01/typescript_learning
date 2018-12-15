@@ -5,7 +5,7 @@
 // ----------------------------------------------------------------------------
 const gulp      = require('gulp');
 const gulpTs    = require('gulp-typescript');
-const srcMaps    = require('gulp-sourcemaps');
+const srcMaps   = require('gulp-sourcemaps');
 const merge     = require('merge2');
 const watch     = require('gulp-watch');
 const gulpLess  = require('gulp-less');
@@ -66,71 +66,98 @@ const COMPILE_SETTINGS_FOR_SPEC = gulpTs.createProject(
         out              : SPEC_JS
     });
 
+// gulpのコールバック関数を実行するかどうか判断するクラス
+class Callback {
 
+    constructor(maxCnt, callback) {
+        this.cnt = 0;
+        this.maxCnt = maxCnt;
+        this.callback = callback;
+    }
+
+    callbackIfDone() {
+
+        this.cnt++;
+
+        if (this.cnt === this.maxCnt) {
+            this.callback();
+        }
+    }
+}
 
 // ----------------------------------------------------------------------------
 //   タスク
 // ----------------------------------------------------------------------------
 
 // Coreに属するTypeScriptのコンパイル
-gulp.task('compileCoreTs', compileCoreTs);
+gulp.task('compileCoreTs', (callback) => {
+    compileCoreTs(callback);
+});
 
 // Featureに属するTypeScriptのコンパイル
-gulp.task('compileFeatureTs', compileFeatureTs);
+gulp.task('compileFeatureTs', (callback) => {
+    compileFeatureTs(callback);
+});
 
 // Specに属するTypeScriptのコンパイル
-gulp.task('compileSpecTs', compileSpecTs);
+gulp.task('compileSpecTs', (callback) => {
+    compileSpecTs(callback);
+});
 
 // すべてのTypeScriptのコンパイル
-gulp.task('compileAllTs', function (callback) {
+gulp.task('compileAllTs', (callback) => {
 
-    compileCoreTs().on('finish', function () {
-        compileFeatureTs();
+    let cb = new Callback(2, callback);
+
+    compileCoreTs(() => {
+        compileFeatureTs(() => {
+            cb.callbackIfDone();
+        });
     });
 
-    compileSpecTs();
-
+    compileSpecTs(() => {
+        cb.callbackIfDone();
+    });
 });
 
 // すべてのLESSのコンパイル
-gulp.task('compileAllLess', compileAllLess);
-
-// TypeDocの生成
-gulp.task('typedoc', createTypedoc);
-
-// 圧縮
-gulp.task('minify', function () {
-    minifyJsFiles();
-    minifyCssFiles();
+gulp.task('compileAllLess', (callback) => {
+    compileAllLess(callback);
 });
 
-// ファイルの追加・更新・削除を監視し、変更があったら再コンパイル実行
-gulp.task('watch', function() {
+// 圧縮
+gulp.task('minify', (callback) => {
 
-	// core.jsのためのTypeScriptコンパイル
-    watch(CORE_TS_FILES, compileCoreTs);
-    
-    // feature.jsのためのTypeScriptコンパイル
-    watch(FEATURE_TS_FILES, compileFeatureTs)
-    
-    // LESSのコンパイル
-	watch(LESS_FILES, compileAllLess);
+    let cb = new Callback(2, callback);
+
+    minifyJsFiles(() => {
+        cb.callbackIfDone();
+    });
+    minifyCssFiles(() => {
+        cb.callbackIfDone();
+    });
 });
 
 // リリース
-gulp.task('release', function () {
+gulp.task('release', (callback) => {
 
-    compileSpecTs();
+    let cb = new Callback(3, callback);
 
-    //createTypedoc();
+    compileSpecTs(() => {
+       cb.callbackIfDone();
+    });
 
-    compileAllLess().on('finish', function () {
-        minifyCssFiles();
-    })
+    compileAllLess(() => {
+        minifyCssFiles(() => {
+            cb.callbackIfDone();
+        });
+    });
 
-    compileCoreTs().on('finish', function () {
-        compileFeatureTs().on('finish', function () {
-            minifyJsFiles();
+    compileCoreTs(() => {
+        compileFeatureTs(() => {
+            minifyJsFiles(() => {
+                cb.callbackIfDone();
+            });
         });
     });
 });
@@ -140,51 +167,55 @@ gulp.task('release', function () {
 // ----------------------------------------------------------------------------
 
 // Coreに属するTypeScriptをコンパイルする関数
-function compileCoreTs() {
+function compileCoreTs(callback) {
 
 	writeInfMsg('TypeScript[Core]のコンパイルを開始しました。');
 
     let result = gulp.src(CORE_TS_FILES)
         .pipe(srcMaps.init())
         .pipe(plumber({
-            'errorHandler': function (error) {
+            'errorHandler': (error) => {
                 writeErrMsg(error);
+                if (callback) callback();
             }
         }))
         .pipe(COMPILE_SETTINGS_FOR_CORE())
         .pipe(srcMaps.write('./'))
         .pipe(gulp.dest(JS_OUTPUT_PATH))
-        .on('finish', function () {
+        .on('finish', () => {
             writeInfMsg('TypeScript[Core]のコンパイルが終了しました。');
+            if (callback) callback();
         });
 
     return result;
 }
 
 // Featureに属するTypeScriptをコンパイルする関数
-function compileFeatureTs() {
+function compileFeatureTs(callback) {
 
 	writeInfMsg('TypeScript[Feature]のコンパイルを開始しました。');
 
     let result = gulp.src(FEATURE_TS_FILES)
         .pipe(srcMaps.init())
         .pipe(plumber({
-            'errorHandler': function (error) {
+            'errorHandler': (error) => {
                 writeErrMsg(error);
+                if (callback) callback();
             }
         }))
         .pipe(COMPILE_SETTINGS_FOR_FEATURE())
         .pipe(srcMaps.write('./'))
         .pipe(gulp.dest(JS_OUTPUT_PATH))
-        .on('finish', function () {
+        .on('finish', () => {
             writeInfMsg('TypeScript[Feature]のコンパイルが終了しました。');
+            if (callback) callback();
         });
     
     return result;
 }
 
 // Specに属するTypeScriptをコンパイルする関数
-function compileSpecTs() {
+function compileSpecTs(callback) {
 
 	writeInfMsg('TypeScript[Spec]のコンパイルを開始しました。');
 
@@ -193,15 +224,16 @@ function compileSpecTs() {
                     .pipe(COMPILE_SETTINGS_FOR_SPEC())
                     .pipe(srcMaps.write('./'))
                     .pipe(gulp.dest(JS_OUTPUT_PATH))
-                    .on('finish', function () {
+                    .on('finish', () => {
                         writeInfMsg('TypeScript[Spec]のコンパイルが終了しました。');
+                        if (callback) callback();
                     });
     
     return result;
 }
 
 // すべてのLESSをコンパイルする関数
-function compileAllLess() {
+function compileAllLess(callback) {
 	
 	writeInfMsg('すべてのLESSのコンパイルを開始しました。');
 	
@@ -209,62 +241,43 @@ function compileAllLess() {
 	
 	return gulp.src(LESS_FILES)
 		.pipe(plumber({
-			'errorHandler': function(error) {
-				writeErrMsg(error);
+			'errorHandler': (error) => {
+                writeErrMsg(error);
+                if (callback) callback();
 			}
 		}))
         .pipe(gulpLess())
-        .pipe(gulp.dest(CSS_OUTPUT_PATH)).on('finish', function () {
+        .pipe(gulp.dest(CSS_OUTPUT_PATH)).on('finish', () => {
             writeInfMsg('すべてのLESSのコンパイルが終了しました。');
-        });
-}
-
-// TypeDocを生成する関数
-function createTypedoc() {
-    
-    writeInfMsg('TypeDoc生成を開始しました。');
-
-    // TODO 動かない・・・
-    
-    return gulp
-        .src(['after/Scripts/**/*.ts'])
-        .pipe(typedoc({
-            target : TS_CONFIG_JSON.compilerOptions.target,
-            out    : 'after_doc',
-            name   : 'after',
-            version: true,
-            includeDeclarations : true,
-            ignoreCompilerErrors: false,
-            mode: 'file'
-        }))
-        .on('finish', function () {
-            writeInfMsg('TypeDoc生成が終了しました。');
+            if (callback) callback();
         });
 }
 
 // JavaScriptファイルを圧縮する関数
-function minifyJsFiles() {
+function minifyJsFiles(callback) {
 
     writeInfMsg('JSファイルの圧縮を開始しました。');
 
     return gulp.src(JS_OUTPUT_PATH + '**/*.js')
                 .pipe(uglify())
                 .pipe(gulp.dest(JS_OUTPUT_PATH))
-                .on('finish', function () {
+                .on('finish', () => {
                     writeInfMsg('JSファイルの圧縮が終了しました。');
+                    if (callback) callback();
                 });
 }
 
 // CSSファイルを圧縮する関数
-function minifyCssFiles() {
+function minifyCssFiles(callback) {
 
     writeInfMsg('CSSファイルの圧縮を開始しました。');
 
     return gulp.src(CSS_OUTPUT_PATH + '**/*.css')
                 .pipe(minifyCss())
                 .pipe(gulp.dest(CSS_OUTPUT_PATH))
-                .on('finish', function () {
+                .on('finish', () => {
                     writeInfMsg('CSSファイルの圧縮が終了しました。');
+                    if (callback) callback();
                 });
 }
 

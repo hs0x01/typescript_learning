@@ -23,7 +23,7 @@
     "gulp-uglify": "latest",
     "gulp-watch": "latest",
     "merge2": "latest",
-    "@types/jquery": "latest",
+    "@types/jquery": "3.2.0",
     "@types/knockout": "latest"
   }
 }
