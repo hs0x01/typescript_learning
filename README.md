@@ -20,7 +20,6 @@ TypeScriptを中心にGulp、Jasmineなどのサンプルコードを置いて�
 3. `npm run gulp release`を実行
 4. afterフォルダのemployeeCrudView.htmlをChromeで開くと動きます。
 5. after_specフォルダのspec_runner.htmlをChromeで開くと単体テストが実行されます。
-6. after_docフォルダのindex.htmlをChromeで開くとAPI仕様書が開きます。  
 
 * Gulpのタスク  
 
@@ -31,7 +30,5 @@ TypeScriptを中心にGulp、Jasmineなどのサンプルコードを置いて�
 |compileSpecTs    |テストコードのTypeScriptをJavaScriptにコンパイルします。  |
 |compileAllTs     |すべてのTypeScriptをJavaScriptにコンパイルします。  |
 |compileAllLess   |すべてのLESSをCSSにコンパイルします。  |
-|typedoc          |TypeScriptのAPI仕様書を生成します。  |
 |minify           |コンパイルで作られたJavaScript、CSSを圧縮します。  |
-|watch            |ファイルの追加・更新・削除を監視し、変更があったら、TypeScript、LESSを再コンパイルします。  |
 |release          |compileAllTs、compileAllLess、typedoc、minifyの各タスクを実行します。|
