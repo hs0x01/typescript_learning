@@ -12,11 +12,7 @@
     <script type="text/javascript">
 
         $(function () {
-
-            new EmployeeCrudViewModel(function (viewModel) {
-                ko.applyBindings(viewModel);
-            });
-
+            EmployeeListView.init();
         });
 
     </script>
@@ -90,7 +86,7 @@
                     <th>部署名</th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach: employeeListModel().employeeModelList">
+            <tbody data-bind="foreach: employeeListModel().employeeModelList, style: { 'opacity': visible() ? 1 : 0 }">
                 <tr data-bind="click: function() { $parent.selectedRowIdx($index()) }">
                     <td data-bind="text: id"></td>
                     <td data-bind="text: name"></td>

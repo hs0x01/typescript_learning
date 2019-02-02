@@ -14,6 +14,11 @@ class EmployeeListViewModel {
     private _employeeListModel: KnockoutObservable<EmployeeListModel>;
 
     /**
+     * 可視状態です。
+     */
+    private _visible: KnockoutObservable<boolean> = ko.observable(false);
+
+    /**
      * コンストラクタです。
      */
     constructor () {
@@ -52,6 +57,22 @@ class EmployeeListViewModel {
      */
     set employeeListModel(value: KnockoutObservable<EmployeeListModel>) {
         this._employeeListModel = value;
+    }
+
+    /**
+     * 可視状態を返します。
+     * @return 可視状態
+     */
+    get visible(): KnockoutObservable<boolean> {
+        return this._visible;
+    }
+
+    /**
+     * 可視状態を設定します。
+     * @param value 可視状態
+     */
+    set visible(value: KnockoutObservable<boolean>) {
+        this._visible = value;
     }
 
     /**

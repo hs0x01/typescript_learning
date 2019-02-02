@@ -207,6 +207,8 @@ class EmployeeCrudViewModel {
      */
     findEmployee() {
 
+        this.employeeListViewModel.visible.valueHasMutated();
+
         let employeeList: Array<EmployeeModel> = this.departmentListModel().findEmployeeByArgs(
                                             this.employeeIdFind(),
                                             this.employeeNameFind(),

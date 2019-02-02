@@ -35,7 +35,8 @@ const CORE_TS_FILES = ['after/Scripts/extensions/*.ts',
 					 'after/Scripts/utils/*.ts'];
 					 
 const FEATURE_TS_FILES = ['after/Scripts/lib/*.d.ts',
-						'after/Scripts/viewmodels/*.ts',
+                        'after/Scripts/viewmodels/*.ts',
+                        'after/Scripts/view/*.ts',
 						JS_OUTPUT_PATH + CORE_D_TS];
 
 const SPEC_TS_FILES    = ['after/Scripts/**/*.ts', 'after/Specs/**/*.ts'];
