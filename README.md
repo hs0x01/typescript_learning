@@ -11,7 +11,7 @@ TypeScriptを中心にGulp、Jasmineなどのサンプルコードを置いて�
 * after_spec
     - Jasmineによる単体テストコードのサンプルです。
 * gulpfile.js
-    - Gulpによる<font color="red">ビルドスクリプト</font>です。
+    - Gulpによる<span style="color: red; ">ビルドスクリプト</span>です。
  
 ## Usage
 1. Node.jsをインストール
